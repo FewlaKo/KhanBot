@@ -30,14 +30,16 @@ engines:
   chess960:                             
     dir: "./engines"                     
     name: "chess960sf"                    
-    ponder: true                 
-    silence_stderr: false             
-    move_overhead_multiplier: 23.5 
-    uci_options:   
-      Threads: 8
-      Hash: 3100                
-      Move Overhead: 100
-    limits:    
+    ponder: true                          # Think on opponent's time.
+    silence_stderr: false                 # Suppresses stderr output.
+    move_overhead_multiplier: 10.0         # Increase if your bot flags games too often. Default move overhead is 1 second per 1 minute initital time.
+    uci_options:                          # Arbitrary UCI options passed to the engine. (Commenting allowed)
+      Threads: 6                          # Max CPU threads the engine can use.
+      Hash: 2048                           # Max memory (in megabytes) the engine can allocate.
+      Move Overhead: 200                  # Increase if your bot flags games too often. 
+      UCI_Chess960: true 
+    limits:                               # Limits that end the move calculation early.
+      time: 3.0                           # Max time per move in seconds. 
     
 syzygy:
   standard:
