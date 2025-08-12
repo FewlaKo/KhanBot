@@ -140,57 +140,72 @@ online_moves:
     selection: "best"                     # Move selection is one of "optimal", "best" or "good".
 #   max_depth: 16                         # Half move max depth. (Comment this line for max depth)
 #   max_moves: 1                          # Max number of moves played from chessdb. (Comment this line for max moves)
-    
   online_egtb:
-    enabled: true
-    min_time: 5
-    timeout: 3
+    enabled: true                        # Activate online endgame tablebases from Lichess.
+    min_time: 20                           # Time the bot must have at least to use the online move. +10 seconds in games without increment.
+    timeout: 3                            # Time the server has to respond.
 
 offer_draw:
-  enabled: true
-  score: 10
-  consecutive_moves: 10
-  min_game_length: 35
-  against_humans: false
+  enabled: true                           # Activate whether the bot should offer draw.
+  score: 10                               # If the absolute value of the score is less than or equal to this value, the bot offers/accepts draw (in cp)
+  consecutive_moves: 10                   # How many moves in a row the absolute value of the score has to be below the draw value
+  min_game_length: 35                     # Earliest move in which draw is offered.
+  against_humans: true                    # Activate whether these settings should apply against humans.
+# min_rating: 2300                        # Minimum rating of opponent to offer draw.
 
 resign:
-  enabled: false
-  score: -1000
-  consecutive_moves: 6
-  against_humans: false
+  enabled: false                          # Activate whether the bot should resign games.
+  score: -1000                            # If the score is less than or equal to this value, the bot resigns (in cp).
+  consecutive_moves: 5                    # How many moves in a row the score has to be below the resign value.
+  against_humans: true                    # Activate whether these settings should apply against humans.
+# min_rating: 2300                        # Minimum rating of opponent to resign.
 
-challenge:
-  concurrency: 1
-  bullet_with_increment_only: false   
-# min_initial: 60
-  variants:
+challenge:                                # Incoming challenges.
+  concurrency: 1                          # Number of games to play simultaneously.
+  max_takebacks: 3                        # Maximum number of takebacks granted to a human.
+  bullet_with_increment_only: false       # Whether bullet games against BOTs should only be accepted with increment.
+# min_increment: 0                        # Minimum amount of increment to accept a challenge.
+# max_increment: 180                      # Maximum amount of increment to accept a challenge.
+# min_initial: 0                          # Minimum amount of initial time to accept a challenge.
+# max_initial: 315360000                  # Maximum amount of initial time to accept a challenge.
+  variants:                               # Chess variants to accept (https://lichess.org/variant).
     - standard
     - chess960
+#   - fromPosition
     - antichess
     - atomic
+    - crazyhouse
+    - horde
     - kingOfTheHill
     - racingKings
     - threeCheck
-  time_controls:
+  time_controls:                          # Speeds or time controls in initial_minutes+increment_seconds format to accept.
     - bullet
     - blitz
-  # - rapid
-  # - classical
-  bot_modes:
-    - casual
-    - rated
-  human_modes:
-    - casual
-    - rated
-
+#    - rapid
+#   - classical
+#   - 25+0
+  bot_modes:                              # Game modes to accept against BOTs.
+    - casual                              # Unrated games.
+    - rated                               # Rated games
+  human_modes:                            # Game modes to accept against humans.
+    - casual                              # Unrated games.
+#    - rated                               # Rated games
+    
 matchmaking:
-  delay: 10
-  timeout: 30
-  selection: cyclic
+  delay: 60                               
+  timeout: 30                           
+  selection: cyclic                  
   types:
     bullet:
       tc: 0.5+0
       rated: true
+      variant: standard
+
+    chess960:
+      tc: 0.5+0
+      rated: true
+      variant: chess960
     
   # Time control in initial_minutes+increment_seconds format.
 #   casual_chess960:
