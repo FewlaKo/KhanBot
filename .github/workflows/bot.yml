@@ -31,7 +31,7 @@ jobs:
       - name: Download and Extract Stockfish
         run: |
           mkdir -p ./engines
-          wget -O stockfish.zip http://abrok.eu/stockfish/latest/linux/stockfish_x64_bmi2.zip
+          wget -O stockfish.zip http://abrok.eu/stockfish/latest/linux/stockfish_x64_avx2.zip
           unzip stockfish.zip -d ./engines
           ls -l ./engines
           mv ./engines/stockfish_*_x64_bmi2 ./engines/stockfish-ubuntu-x86-64-bmi2
