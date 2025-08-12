@@ -110,13 +110,13 @@ online_moves:
     enabled: false
     priority: 300
     only_without_book: false
-    use_for_variants: true
+    use_for_variants: false
     min_time: 20
     timeout: 5
     min_games: 10
-    only_with_wins: true
+    only_with_wins: false
     selection: "win_rate"
-    anti: true
+    anti: false
     # max_depth: 20
 
   lichess_cloud:
