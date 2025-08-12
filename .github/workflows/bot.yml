@@ -34,7 +34,7 @@ jobs:
           wget -O stockfish.zip http://abrok.eu/stockfish/latest/linux/stockfish_x64_avx2.zip
           unzip stockfish.zip -d ./engines
           ls -l ./engines
-          mv ./engines/stockfish_*_x64_bmi2 ./engines/stockfish-ubuntu-x86-64-bmi2
+          mv ./engines/stockfish_*_x64_avx2 ./engines/stockfish-ubuntu-x86-64-bmi2
           chmod +x ./engines/stockfish-ubuntu-x86-64-bmi2
           rm stockfish.zip
 
