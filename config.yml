@@ -225,4 +225,4 @@ blacklist:                                # List of users who are not challenged
 
 books:                                  
   Titans: "engines/Titans.bin"
-  probook: "./engines/lila.bin"
+  lila: "./engines/lila.bin"
