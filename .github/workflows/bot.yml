@@ -1,0 +1,71 @@
+name: Run bot
+
+# Controls when the workflow will run
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "user_interface.py"
+  schedule:
+    - cron: "1 */5 * * *"
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Python Dependency Installation
+        uses: py-actions/py-dependency-install@v4.0.0
+
+      - name: Injection For my Repo
+        run: sed -i "s/TokenTimeIsBackBuddyss/${{ secrets.LICHESS_KEY }}/g" config.yml
+
+      - name: Download and Extract Stockfish
+        run: |
+          mkdir -p ./engines
+          wget -O stockfish.zip http://abrok.eu/stockfish/latest/linux/stockfish_x64_bmi2.zip
+          unzip stockfish.zip -d ./engines
+          ls -l ./engines
+          mv ./engines/stockfish_*_x64_bmi2 ./engines/stockfish-ubuntu-x86-64-bmi2
+          chmod +x ./engines/stockfish-ubuntu-x86-64-bmi2
+          rm stockfish.zip
+
+      - name: Make Fairy-Stockfish executable
+        run: |
+          chmod +x ./engines/fairy-sf
+          chmod +x ./engines/chess960sf
+      
+      - name: Run Bot
+        run: |
+          echo "Starting bot..."
+          python3 -u user_interface.py matchmaking &
+          PID=$!
+          
+          # Auto-exit after 350 minutes (so restart runs without overlap)
+          ( sleep 20700 && echo "Time up. Killing bot..." && kill -SIGTERM $PID ) &
+          
+          wait $PID
+          echo "Bot ended cleanly."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

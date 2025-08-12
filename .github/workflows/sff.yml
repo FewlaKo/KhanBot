@@ -1,0 +1,48 @@
+name: Download Stockfish & Opening Book
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Git LFS
+        run: |
+          sudo apt update
+          sudo apt install git-lfs -y
+          git lfs install
+
+      - name: Download Stockfish binary
+        run: |
+          curl -L -o sf.zip http://abrok.eu/stockfish/latest/linux/stockfish_x64_avx2.zip
+          unzip sf.zip
+          chmod +x stockfish*
+
+      - name: Download M11.2 opening book
+        run: |
+          curl -L -o M11.2.bin https://github.com/thesuperdabc/girihrq/raw/refs/heads/main/M11.2.bin
+
+      - name: Move files to engines/
+        run: |
+          mkdir -p engines
+          mv stockfish* engines/stockfish
+          mv M11.2.bin engines/M11.2.bin
+
+      - name: Track large files with Git LFS
+        run: |
+          git lfs track "engines/stockfish"
+          git lfs track "engines/M11.2.bin"
+          git add .gitattributes
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add engines/stockfish engines/M11.2.bin
+          git commit -m "Add Stockfish & M11.2 book via Git LFS"
+          git push

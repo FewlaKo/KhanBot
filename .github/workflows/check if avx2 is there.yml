@@ -1,0 +1,22 @@
+name: Check AVX2 Support
+
+on:
+  push:        # <-- This tells GitHub to run the workflow on push
+    branches:
+      - main   # Optional: only run on pushes to main branch
+
+jobs:
+  check-avx2:
+    name: Check for AVX2 Instruction Set
+    runs-on: ubuntu-latest
+    steps:
+      - name: Display CPU Flags and Check for AVX2
+        run: |
+          echo "CPU Flags:"
+          grep -m1 '^flags' /proc/cpuinfo
+          echo
+          if grep -m1 '^flags' /proc/cpuinfo | grep -q avx2; then
+            echo "✅ AVX2 is supported"
+          else
+            echo "❌ AVX2 is NOT supported"
+          fi

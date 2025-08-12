@@ -1,0 +1,37 @@
+name: Download and Upload M11.2.bin to Engines
+
+on:
+  workflow_dispatch: # Chạy thủ công từ tab Actions
+
+jobs:
+  download-and-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download M11.2.bin from workupload
+        run: |
+          wget -O M11.2.bin "https://f54.workupload.com/download/E5atKBeeYW8"
+      
+      - name: Ensure engines directory exists
+        run: |
+          mkdir -p engines
+
+      - name: Move M11.2.bin to engines
+        run: |
+          mv M11.2.bin engines/
+
+      - name: Show engines folder contents
+        run: |
+          ls -l engines
+
+      - name: Commit and push file to engines
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add engines/M11.2.bin
+          git commit -m "Add M11.2.bin to engines"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
