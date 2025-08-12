@@ -3,7 +3,7 @@ token: "TokenTimeIsBackBuddyss"  # Lichess OAuth2 Token.
 engines:
   standard:
     dir: "./engines"
-    name: "stockfish"
+    name: "stockfish-ubuntu-x86-64-bmi2"
     ponder: true
     silence_stderr: false
     move_overhead_multiplier: 24.0
@@ -19,7 +19,7 @@ engines:
 
   chess960:
     dir: "./engines"
-    name: "stockfish"
+    name: "chess960sf"
     ponder: true
     silence_stderr: false
     move_overhead_multiplier: 22.0
@@ -33,7 +33,7 @@ engines:
       # nodes: 8000000
   bullet:
     dir: "./engines"
-    name: "stockfish"
+    name: "stockfish-ubuntu-x86-64-bmi2"
     ponder: true
     silence_stderr: false
     move_overhead_multiplier: 22.5
@@ -48,7 +48,7 @@ engines:
 
   variants:
     dir: "./engines"
-    name: "fairy-stockfish_x86-64-bmi2"
+    name: "fairy-sf"
     ponder: true
     silence_stderr: false
     move_overhead_multiplier: 1.0
